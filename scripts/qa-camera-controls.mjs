@@ -118,8 +118,8 @@ try {
   await page.click('#cctv-enable-btn');
   await page.waitForFunction(
     () =>
-      window.__bident.dataManager.layers.get('cctv').module.getUIState()
-        .cameras.length === 2 &&
+      window.__bident.dataManager.layers.get('cctv').module.getUIState().cameras
+        .length === 2 &&
       !document.getElementById('cctv-camera-select').disabled,
     { timeout: 30000 },
   );
@@ -230,9 +230,9 @@ try {
     'Save persists the selected camera calibration',
     await page.evaluate(() =>
       Boolean(
-        JSON.parse(
-          localStorage.getItem('bident.cctv.calibration.v2') || '{}',
-        )['qa-camera-a'],
+        JSON.parse(localStorage.getItem('bident.cctv.calibration.v2') || '{}')[
+          'qa-camera-a'
+        ],
       ),
     ),
   );

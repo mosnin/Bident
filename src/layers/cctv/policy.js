@@ -73,13 +73,11 @@ export const PLACEHOLDER_REPAINT_MS = 750;
 // re-reads it by accident. Exported for the unit suite's "v1 is ignored"
 // assertion; there is NO read path for this key anywhere in the module.
 
-export const CCTV_CALIBRATION_STORAGE_KEY_V1 =
-  'bident.cctv.calibration.v1';
+export const CCTV_CALIBRATION_STORAGE_KEY_V1 = 'bident.cctv.calibration.v1';
 
 /** v2 store key. Entries: { values: <7-field calibration offsets>, source: 'manual', savedAt: <epoch ms> }. */
 
-export const CCTV_CALIBRATION_STORAGE_KEY_V2 =
-  'bident.cctv.calibration.v2';
+export const CCTV_CALIBRATION_STORAGE_KEY_V2 = 'bident.cctv.calibration.v2';
 
 // H5: throttle for double-buffered canvas texture swaps (<=1Hz; each swap is a
 // full 1080p texture re-upload because Cesium re-uploads only on a NEW image

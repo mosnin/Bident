@@ -101,9 +101,7 @@ try {
     const settled = Math.abs(style.getCameraState().lon - -97.73) < 1e-6;
     // Updating the target creates an explicit inline pose while retaining the authored start.
     d.updateSelectedShot();
-    const saved = JSON.parse(
-      localStorage.getItem('bident.sceneProject.v2'),
-    );
+    const saved = JSON.parse(localStorage.getItem('bident.sceneProject.v2'));
     const updated =
       saved.scenes[0].shots[0].camera.altitudeReference === 'ellipsoid' &&
       saved.scenes[0].shots[0].move.from.anchorId === 'start';

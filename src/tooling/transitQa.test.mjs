@@ -410,8 +410,7 @@ test('sensor sampler waits for postRender and reads framebuffer pixels; stopped 
     },
   };
   const page = { evaluate: async (fn, ...args) => fn(...args) };
-  const sampledLayer =
-    window.__bident.dataManager.layers.get('transit').module;
+  const sampledLayer = window.__bident.dataManager.layers.get('transit').module;
   const originalState = sampledLayer._transitStateForTest;
   sampledLayer._transitStateForTest = () => {
     const state = originalState();

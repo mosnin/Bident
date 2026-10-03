@@ -106,10 +106,10 @@ function appBase(services) {
 
 export const showInBident = defineTool({
   name: 'show_in_bident',
-  title: "Show in Bident",
+  title: 'Show in Bident',
   description:
-    "Shows a view in Bident: in clients that display apps, the live " +
-    "Bident globe in the conversation; everywhere, a link that opens " +
+    'Shows a view in Bident: in clients that display apps, the live ' +
+    'Bident globe in the conversation; everywhere, a link that opens ' +
     'it. Pass the view another answer returned, or describe one: an area ' +
     'framed from above or a camera position, with chosen data layers, visual ' +
     'style and map, optionally following an aircraft (or riding in its ' +

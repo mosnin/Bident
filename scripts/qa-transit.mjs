@@ -374,8 +374,8 @@ try {
 
   await page.evaluate(() => {
     window.__transitRenderErrors = [];
-    window.__bident.viewer.scene.renderError.addEventListener(
-      (scene, error) => window.__transitRenderErrors.push(error.message),
+    window.__bident.viewer.scene.renderError.addEventListener((scene, error) =>
+      window.__transitRenderErrors.push(error.message),
     );
   });
   for (const city of runs('cities') ? CITIES : []) {
@@ -393,15 +393,13 @@ try {
     }, city);
     await page.waitForFunction(
       () =>
-        (window.__bident.dataManager.layers
-          .get('transit')
-          .module.getStats().count || 0) > 0,
+        (window.__bident.dataManager.layers.get('transit').module.getStats()
+          .count || 0) > 0,
       { timeout: 90_000 },
     );
     await wait(9_000);
     const fleet = await page.evaluate(() => {
-      const layer =
-        window.__bident.dataManager.layers.get('transit').module;
+      const layer = window.__bident.dataManager.layers.get('transit').module;
       return {
         count: layer._transitStateForTest()._vehicles.size,
         stats: layer.getStats(),

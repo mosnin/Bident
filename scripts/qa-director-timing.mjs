@@ -126,8 +126,8 @@ try {
     'no pending clocks after Stop',
     await page.evaluate(
       () =>
-        window.__bident.sceneDirector.getPlaybackTimingState()
-          .activeTimers === 0,
+        window.__bident.sceneDirector.getPlaybackTimingState().activeTimers ===
+        0,
     ),
   );
   check('no browser exceptions', errors.length === 0);

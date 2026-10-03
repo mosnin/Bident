@@ -237,7 +237,7 @@ export class RealtimeViewport {
         content: [
           {
             type: 'input_text',
-            text: "Current Bident viewport screenshot. Read any clearly visible street, building, and place labels in the image and combine them with the structured nearbyPlaces, streetLabels, and scene context. Do not invent labels that are not legible.",
+            text: 'Current Bident viewport screenshot. Read any clearly visible street, building, and place labels in the image and combine them with the structured nearbyPlaces, streetLabels, and scene context. Do not invent labels that are not legible.',
           },
           {
             type: 'input_image',

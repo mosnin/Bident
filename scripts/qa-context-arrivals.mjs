@@ -175,9 +175,7 @@ async function openPage({ aircraft = false } = {}) {
       document.getElementById('loading-screen')?.classList.contains('hidden'),
     { timeout: 120_000 },
   );
-  await page.evaluate(
-    () => window.__bident.styleManager.initialRestorePromise,
-  );
+  await page.evaluate(() => window.__bident.styleManager.initialRestorePromise);
   await page.keyboard.press('Escape');
   return page;
 }
@@ -359,8 +357,7 @@ async function contacts() {
         })),
         entities: ds?.entities.values.length ?? 0,
         created,
-        tracked:
-          window.__bident.viewer.trackedEntity?.gevTrackedId ?? null,
+        tracked: window.__bident.viewer.trackedEntity?.gevTrackedId ?? null,
         cockpit: document.body.classList.contains('cockpit-mode'),
       });
       if (samples.length > 5000) samples.splice(0, 1000);
@@ -375,8 +372,7 @@ async function contacts() {
   await page
     .waitForFunction(
       () =>
-        window.__bident.viewer.trackedEntity?.gevTrackedId ===
-        'flights:aaa051',
+        window.__bident.viewer.trackedEntity?.gevTrackedId === 'flights:aaa051',
       { timeout: 60_000 },
     )
     .catch(() => {});
@@ -467,9 +463,7 @@ async function contacts() {
       inCockpit.every((s) => numeric(s) && Number.parseInt(s.count, 10) >= 1),
     inCockpit.at(-1)?.text || 'no cockpit samples',
   );
-  await page.evaluate(() =>
-    window.__bident.styleManager.cockpitView.exit?.(),
-  );
+  await page.evaluate(() => window.__bident.styleManager.cockpitView.exit?.());
   await sleep(2000);
 
   // SEARCH NEARBY SITES, as the user presses it.

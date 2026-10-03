@@ -8,7 +8,7 @@ const application = createStandaloneApplication({
 });
 
 application.start().catch((error) => {
-  console.error("Bident initialization failed:", error);
+  console.error('Bident initialization failed:', error);
   const loaderStatus = document.querySelector('#loading-screen .loader-status');
   loaderStatus.textContent = `Error: ${describeError(error)}`;
   loaderStatus.style.color = '#ff4444';

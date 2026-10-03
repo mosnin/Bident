@@ -541,7 +541,7 @@ export function panelRuntime(config) {
         const notice = document.createElement('div');
         notice.id = 'status';
         notice.textContent =
-          "This panel lost its 3D graphics, likely because other Bident " +
+          'This panel lost its 3D graphics, likely because other Bident ' +
           "View panels in this conversation hold them. Use Open in God's " +
           'Eye View above, or show it in a new conversation.';
         document.body.appendChild(notice);
@@ -568,16 +568,16 @@ export function panelRuntime(config) {
     queued = view;
     if (started) return;
     started = true;
-    say("Loading Bident…");
+    say('Loading Bident…');
     startApp(url, view).catch((error) =>
       say(`Bident could not load here: ${error?.message || error}.`),
     );
     setTimeout(() => {
       if (!ready)
         say(
-          "Bident did not load here" +
+          'Bident did not load here' +
             (blocked ? ` (${blocked})` : '') +
-            ". Use Open in Bident above.",
+            '. Use Open in Bident above.',
         );
     }, config.loadTimeoutMs);
   }
@@ -640,7 +640,7 @@ export function panelRuntime(config) {
     appCapabilities: { availableDisplayModes: ['inline', 'fullscreen'] },
     appInfo: {
       name: 'bident',
-      title: "Bident",
+      title: 'Bident',
       version: '1.0.0',
     },
     protocolVersion: config.protocolVersion,
@@ -655,7 +655,7 @@ export function panelRuntime(config) {
     },
     (error) =>
       say(
-        "This client did not accept the Bident panel" +
+        'This client did not accept the Bident panel' +
           (error?.message ? `: ${error.message}` : '.'),
       ),
   );

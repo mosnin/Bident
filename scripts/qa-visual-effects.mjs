@@ -123,9 +123,7 @@ try {
     if (['normal', 'surveillance', 'thermal'].includes(style)) {
       await page.screenshot({ path: `qa-shots/visual-effects/${style}.png` });
       if (style === 'surveillance')
-        await page.evaluate(() =>
-          window.__bident.viewer.camera.lookRight(0.2),
-        );
+        await page.evaluate(() => window.__bident.viewer.camera.lookRight(0.2));
     }
   }
   await page.evaluate(() => {

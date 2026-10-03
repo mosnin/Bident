@@ -153,9 +153,7 @@ try {
       document.getElementById('loading-screen')?.classList.contains('hidden'),
     { timeout: 90_000, polling: 250 },
   );
-  await page.evaluate(
-    () => window.__bident.styleManager.initialRestorePromise,
-  );
+  await page.evaluate(() => window.__bident.styleManager.initialRestorePromise);
   await page.keyboard.press('Escape');
   await page.waitForFunction(
     () => !document.querySelector('#first-run-launcher:not([hidden])'),

@@ -128,8 +128,7 @@ try {
     requests.length === 0 &&
       (await page.evaluate(
         (before) =>
-          JSON.stringify(window.__bident.sceneDirector._project) ===
-          before,
+          JSON.stringify(window.__bident.sceneDirector._project) === before,
         before,
       )),
   );
@@ -347,8 +346,7 @@ try {
     'stale author draft cannot overwrite a newer edit',
     await page.evaluate(
       () =>
-        window.__bident.sceneDirector._project.scenes[0].title ===
-        'Newer edit',
+        window.__bident.sceneDirector._project.scenes[0].title === 'Newer edit',
     ),
   );
   await page.keyboard.press('Escape');
@@ -435,8 +433,7 @@ try {
   check(
     'removing a pack through authoring releases its retained bytes',
     await page.evaluate(
-      () =>
-        window.__bident.sceneDirector.getSharingState().assets.count === 0,
+      () => window.__bident.sceneDirector.getSharingState().assets.count === 0,
     ),
   );
   await page.evaluate(
@@ -454,8 +451,7 @@ try {
   check(
     'replacement releases stored bundle bytes',
     await page.evaluate(
-      () =>
-        window.__bident.sceneDirector.getSharingState().assets.count === 0,
+      () => window.__bident.sceneDirector.getSharingState().assets.count === 0,
     ),
   );
   await page.evaluate(async () => {

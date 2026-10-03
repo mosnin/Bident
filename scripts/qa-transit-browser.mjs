@@ -155,8 +155,8 @@ export async function sampleTransitPixels(page, palette) {
           new Error('Transit pixel readback: no postRender within 5000 ms'),
         );
       }, 5000);
-      const remove =
-        window.__bident.viewer.scene.postRender.addEventListener(() => {
+      const remove = window.__bident.viewer.scene.postRender.addEventListener(
+        () => {
           const app = window.__bident;
           const layer = app.dataManager.layers.get('transit').module;
           const state = layer._transitStateForTest();
@@ -639,7 +639,8 @@ export async function sampleTransitPixels(page, palette) {
             `TRANSIT_SAMPLER ${style}: ${out.length} verified; skipped=${JSON.stringify(skipped)}`,
           );
           resolve(out);
-        });
+        },
+      );
       window.__bident.viewer.scene.requestRender();
     });
   }, palette);

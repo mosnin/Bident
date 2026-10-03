@@ -115,8 +115,8 @@ export function createGlobePanelResource({ runtime, panelKey }) {
   return Object.freeze({
     uri: GLOBE_PANEL_URI,
     name: 'globe',
-    title: "Bident globe",
-    description: "Live Bident, showing the view a tool returns.",
+    title: 'Bident globe',
+    description: 'Live Bident, showing the view a tool returns.',
     mimeType: MCP_APP_MIME_TYPE,
     text: panelHtml(runtime, panelKey),
     _meta: {

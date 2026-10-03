@@ -8,7 +8,7 @@ Use Node.js 24.14.x or 26.x (also enforced by `package.json`).
 
 ```bash
 git clone https://github.com/mosnin/Bident.git
-cd bident
+cd Bident
 nvm install 24.14.0
 nvm use 24.14.0
 npm install

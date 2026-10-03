@@ -196,9 +196,7 @@ try {
       document.getElementById('loading-screen')?.classList.contains('hidden'),
     { timeout: 120_000 },
   );
-  await page.evaluate(
-    () => window.__bident.styleManager.initialRestorePromise,
-  );
+  await page.evaluate(() => window.__bident.styleManager.initialRestorePromise);
   await page.keyboard.press('Escape');
   await installFrameProbe(page);
   // ALPR watcher: row state every 100 ms and the rendered camera set (ids and
@@ -219,9 +217,8 @@ try {
       } else {
         const entities =
           entry?.module && entry.enabled
-            ? window.__bident.viewer.dataSources.getByName(
-                'alpr-cameras',
-              )[0]?.entities.values || []
+            ? window.__bident.viewer.dataSources.getByName('alpr-cameras')[0]
+                ?.entities.values || []
             : [];
         for (const entity of entities) {
           if (entity.show === false) continue;

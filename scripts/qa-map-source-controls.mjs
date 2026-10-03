@@ -53,8 +53,7 @@ try {
   await page.click('[data-stack-id="osm"]');
   await page.waitForFunction(
     () =>
-      window.__bident.styleManager.mapStackController.getActiveId() ===
-      'osm',
+      window.__bident.styleManager.mapStackController.getActiveId() === 'osm',
   );
   check(
     'a native chip click requests OSM exactly once',
@@ -113,8 +112,7 @@ try {
   );
   await page.waitForFunction(
     () =>
-      window.__bident.styleManager.mapStackController.getActiveId() ===
-      'osm',
+      window.__bident.styleManager.mapStackController.getActiveId() === 'osm',
   );
   await page.evaluate(async () => {
     const manager = window.__bident.styleManager;
@@ -175,11 +173,10 @@ try {
       'mobile',
   );
   await page.evaluate(() =>
-    window.__bident.styleManager.setPanelCollapsed(
-      'control-panel',
-      false,
-      { persist: false, syncShare: false },
-    ),
+    window.__bident.styleManager.setPanelCollapsed('control-panel', false, {
+      persist: false,
+      syncShare: false,
+    }),
   );
   await page.screenshot({ path: 'qa-shots/map-source-controls/narrow.png' });
   check(

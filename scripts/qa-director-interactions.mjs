@@ -157,8 +157,7 @@ try {
   check(
     'settled LOAD activates four actions',
     await page.evaluate(
-      () =>
-        window.__bident.sceneDirector.getInteractionState().count === 4,
+      () => window.__bident.sceneDirector.getInteractionState().count === 4,
     ),
   );
   await page.waitForFunction(
@@ -282,8 +281,7 @@ try {
     await page.evaluate(
       () =>
         window.__bident.sceneDirector.getInteractionState().count === 4 &&
-        window.__bident.sceneDirector.getInteractionState().selected ===
-          null &&
+        window.__bident.sceneDirector.getInteractionState().selected === null &&
         window.__bident.sceneDirector.getDataPackState().count === 1,
     ),
   );
@@ -310,8 +308,7 @@ try {
     'detached buttons cannot invoke replacement actions with the same ID',
     await page.evaluate(
       () =>
-        window.__bident.sceneDirector.getInteractionState().selected ===
-          null &&
+        window.__bident.sceneDirector.getInteractionState().selected === null &&
         !document.querySelector('[data-director-action-card]').textContent,
     ),
   );

@@ -332,9 +332,7 @@ try {
     if (await clickChip('weather-cyclones', 'focus')) {
       await sleep(6000);
       await shot('storm-view', `View storm: ${storm}`);
-      await page.evaluate(() =>
-        window.__bident.viewer.camera.zoomIn(400_000),
-      );
+      await page.evaluate(() => window.__bident.viewer.camera.zoomIn(400_000));
       await sleep(4000);
       await shot('storm-closer', 'Zoomed toward the storm');
     }

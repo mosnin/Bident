@@ -20,11 +20,7 @@ test('each surface offers the tools the table does not turn off', () => {
     assert.deepEqual(offered, expected, surface);
   }
   const mcp = names(toolsForSurface(coreTools, 'mcp'));
-  for (const name of [
-    'show_in_bident',
-    'situation_brief',
-    'aircraft_in_area',
-  ])
+  for (const name of ['show_in_bident', 'situation_brief', 'aircraft_in_area'])
     assert.ok(mcp.includes(name), name);
   for (const name of [
     'search_places',

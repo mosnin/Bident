@@ -768,13 +768,9 @@ async function findClickableTarget() {
   const site = await page
     .evaluate(async () => {
       const viewer = window.__bident.viewer;
-      await window.__bident.dataManager.setEnabled(
-        'local-datacenters',
-        true,
-        {
-          origin: 'user',
-        },
-      );
+      await window.__bident.dataManager.setEnabled('local-datacenters', true, {
+        origin: 'user',
+      });
       const centreOf = (entity) => {
         const time = viewer.clock.currentTime;
         const point = entity.position?.getValue?.(time);

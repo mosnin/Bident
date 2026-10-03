@@ -385,9 +385,7 @@ try {
   );
   check(
     'the layer enables from its toggle',
-    await until(() =>
-      window.__bident.dataManager.isEnabled('recent-imagery'),
-    ),
+    await until(() => window.__bident.dataManager.isEnabled('recent-imagery')),
   );
   check(
     'the panel appears on the right rail once enabled',
@@ -572,9 +570,7 @@ try {
       changedColour = colour;
       break;
     }
-    await page.evaluate(() =>
-      window.__bident.viewer.scene.requestRender(),
-    );
+    await page.evaluate(() => window.__bident.viewer.scene.requestRender());
     await wait(1000);
   }
   check(
@@ -1434,9 +1430,7 @@ try {
   await click(layerToggle);
   check(
     'the layer disables from its toggle',
-    await until(
-      () => !window.__bident.dataManager.isEnabled('recent-imagery'),
-    ),
+    await until(() => !window.__bident.dataManager.isEnabled('recent-imagery')),
   );
   const cleared = await until(() => {
     const hosts = window.__riQa.hosts();

@@ -336,9 +336,7 @@ try {
     { timeout: 60_000, polling: 250 },
   );
   // Startup restoration owns its camera flight until the loading cover is gone.
-  await page.evaluate(
-    () => window.__bident.styleManager.initialRestorePromise,
-  );
+  await page.evaluate(() => window.__bident.styleManager.initialRestorePromise);
   await page.evaluate(() =>
     window.__bident.styleManager.setDetection({ enabled: false }),
   );
@@ -774,9 +772,8 @@ try {
     await page.click('[data-layer-id="traffic"] [data-chip-id="roads-osm"]');
     await page.waitForFunction(
       () =>
-        window.__bident.dataManager.layers
-          .get('traffic')
-          .module.getParams().roadMode === 'osm',
+        window.__bident.dataManager.layers.get('traffic').module.getParams()
+          .roadMode === 'osm',
     );
     await page.waitForFunction(
       () =>
@@ -1428,9 +1425,7 @@ try {
     );
     await waitForSources();
     result.alprLondon = await page.evaluate(() =>
-      window.__bident.dataManager.layers
-        .get('alpr-cameras')
-        .module.getStats(),
+      window.__bident.dataManager.layers.get('alpr-cameras').module.getStats(),
     );
     assert.equal(result.alprLondon.noCoverage, true);
     assert.equal(result.alprLondon.countLabel, '');

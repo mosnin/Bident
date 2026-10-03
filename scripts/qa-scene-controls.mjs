@@ -56,9 +56,7 @@ try {
     'New creates and selects a persisted empty scene',
     await page.evaluate(() => {
       const director = window.__bident.sceneDirector;
-      const saved = JSON.parse(
-        localStorage.getItem('bident.sceneProject.v2'),
-      );
+      const saved = JSON.parse(localStorage.getItem('bident.sceneProject.v2'));
       return (
         director._getSelectedScene().shots.length === 0 &&
         !!document.querySelector('.scene-shot-empty') &&
@@ -98,10 +96,9 @@ try {
     await page.evaluate(
       () =>
         !document.querySelector('.scene-shot-label b') &&
-        JSON.parse(
-          localStorage.getItem('bident.sceneProject.v2'),
-        ).scenes.some((scene) =>
-          scene.shots.some((shot) => shot.title === '<b>QA shot</b>'),
+        JSON.parse(localStorage.getItem('bident.sceneProject.v2')).scenes.some(
+          (scene) =>
+            scene.shots.some((shot) => shot.title === '<b>QA shot</b>'),
         ),
     ),
   );
@@ -283,8 +280,7 @@ try {
     await page.evaluate(
       () =>
         window.__bident.sceneDirector._project.scenes.length === 1 &&
-        window.__bident.sceneDirector._getSelectedScene().title ===
-          'QA Scene',
+        window.__bident.sceneDirector._getSelectedScene().title === 'QA Scene',
     ),
   );
   const savedBefore = await page.evaluate(() =>
@@ -303,8 +299,7 @@ try {
     await page.evaluate(
       (saved) =>
         localStorage.getItem('bident.sceneProject.v2') === saved &&
-        window.__bident.sceneDirector._getSelectedScene().title ===
-          'QA Scene',
+        window.__bident.sceneDirector._getSelectedScene().title === 'QA Scene',
       savedBefore,
     ),
   );
@@ -345,8 +340,7 @@ try {
     'Delete shot leaves the empty-state presentation',
     await page.evaluate(
       () =>
-        window.__bident.sceneDirector._getSelectedScene().shots.length ===
-        0,
+        window.__bident.sceneDirector._getSelectedScene().shots.length === 0,
     ),
   );
   await page.click('#scene-delete-btn');

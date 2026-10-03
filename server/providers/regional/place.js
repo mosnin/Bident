@@ -13,8 +13,7 @@ import {
  * agents will not do. Both are sent.
  */
 const NOMINATIM_HEADERS = Object.freeze({
-  'User-Agent':
-    'bident/0.1 (+https://github.com/mosnin/Bident)',
+  'User-Agent': 'bident/0.1 (+https://github.com/mosnin/Bident)',
   Referer: 'https://github.com/mosnin/Bident',
 });
 

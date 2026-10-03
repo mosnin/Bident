@@ -49,9 +49,7 @@ test('documented panel storage keys are the keys the code writes', async () => {
   // A document that still names a superseded version sends the reader to a key
   // nothing writes.
   for (const [file, content] of seen) {
-    const stalePositions = [
-      ...content.matchAll(/bident\.(v\d+)\.panelPos/g),
-    ]
+    const stalePositions = [...content.matchAll(/bident\.(v\d+)\.panelPos/g)]
       .map(([, found]) => found)
       .filter((found) => found !== position);
     assert.deepEqual(

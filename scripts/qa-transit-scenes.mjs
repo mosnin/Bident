@@ -109,8 +109,7 @@ export async function runFleetBudgets({
     // Camera proximity can finish a live poll during tile warm-up. Remove it
     // before the heap baseline, or its memory would discount the fixture fleet.
     await page.evaluate(() => {
-      const layer =
-        window.__bident.dataManager.layers.get('transit').module;
+      const layer = window.__bident.dataManager.layers.get('transit').module;
       const state = layer._transitStateForTest(),
         parts = layer._transitPartsForTest();
       parts.ingestion.abortAllInFlight();
@@ -225,8 +224,7 @@ export async function runFleetBudgets({
       quality: 85,
     });
     const settled = await page.evaluate(async () => {
-      const layer =
-        window.__bident.dataManager.layers.get('transit').module;
+      const layer = window.__bident.dataManager.layers.get('transit').module;
       const state = layer._transitStateForTest();
       const { seek } = await import('/src/data/contactPlayback.js');
       const { updatePlayback } =
@@ -358,8 +356,7 @@ export async function runBostonMatrix({
       );
       const pixels = await sampleRendered(page);
       const modes = await page.evaluate(() => {
-        const layer =
-          window.__bident.dataManager.layers.get('transit').module;
+        const layer = window.__bident.dataManager.layers.get('transit').module;
         return [...layer._transitStateForTest()._vehicles.values()].map(
           (e) => ({
             key: e.key,

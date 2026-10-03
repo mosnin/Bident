@@ -170,9 +170,8 @@ const setMode = async (mode) => {
 const waitForRoute = () =>
   page.waitForFunction(
     () =>
-      window.__bident.dataManager.layers
-        .get('directions')
-        .module.getStats().count > 0,
+      window.__bident.dataManager.layers.get('directions').module.getStats()
+        .count > 0,
     { timeout: 40000 },
   );
 

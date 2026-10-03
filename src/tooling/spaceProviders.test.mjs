@@ -7,10 +7,7 @@ import {
   launchLibraryRequestHeaders,
   LL2_CACHE_TTL_MS,
 } from 'bident/server/providers/space';
-import {
-  celestrakTleUrl,
-  launchLibraryRecentUrl,
-} from 'bident/sources/space';
+import { celestrakTleUrl, launchLibraryRecentUrl } from 'bident/sources/space';
 import * as compatibility from '../../server/providers/local.js';
 
 function install(plugin, preview = false) {

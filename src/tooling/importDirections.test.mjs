@@ -21,10 +21,7 @@ function fixture(t, exports = {}) {
     mkdirSync(path.dirname(path.join(root, name)), { recursive: true });
     writeFileSync(path.join(root, name), source);
   };
-  write(
-    'package.json',
-    JSON.stringify({ name: '@bident/core', exports }),
-  );
+  write('package.json', JSON.stringify({ name: '@bident/core', exports }));
   write('src/data/feedState.js');
   return { root, write };
 }

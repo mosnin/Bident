@@ -112,9 +112,8 @@ try {
     assert.equal(
       await page.evaluate(
         () =>
-          window.__bident.dataManager.layers
-            .get('traffic')
-            .module.getStats().loading,
+          window.__bident.dataManager.layers.get('traffic').module.getStats()
+            .loading,
       ),
       false,
     );
