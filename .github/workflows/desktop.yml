@@ -53,6 +53,7 @@ jobs:
           fi
 
       - name: Smoke test the packaged app
+        timeout-minutes: 5
         env:
           BIDENT_SMOKE_SCREENSHOT: ${{ runner.temp }}/bident-smoke.png
         run: release/mac-arm64/Bident.app/Contents/MacOS/Bident --smoke-test

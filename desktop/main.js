@@ -237,13 +237,29 @@ async function runSmokeTest(win) {
   log(
     `Smoke test ${rendered ? 'passed' : 'FAILED'}: title="${title}" url=${win.webContents.getURL()}`,
   );
-  app.exit(rendered ? 0 : 1);
+  await exitWith(rendered ? 0 : 1);
 }
 
 async function stopServer() {
   const running = server;
   server = null;
-  if (running) await running.close().catch(() => {});
+  if (!running) return;
+  // Never let a slow watcher teardown hold the app open on quit.
+  await Promise.race([
+    running.close().catch(() => {}),
+    new Promise((resolve) => setTimeout(resolve, 3000)),
+  ]);
+}
+
+/**
+ * Exit with `code` once the server is closed. On macOS a live Vite file
+ * watcher can keep the process alive after app.exit(), so a short fallback
+ * forces the exit.
+ */
+async function exitWith(code) {
+  await stopServer();
+  setTimeout(() => process.exit(code), 2000);
+  app.exit(code);
 }
 
 if (!app.requestSingleInstanceLock()) {
