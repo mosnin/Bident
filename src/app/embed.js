@@ -86,7 +86,7 @@ export function keepPanelRendering(
     (_scene, error) => {
       failed = true;
       console.error(
-        "[God's Eye View panel] render error:",
+        "[Bident panel] render error:",
         describeError(error),
       );
     },

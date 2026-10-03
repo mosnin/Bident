@@ -192,12 +192,12 @@ try {
   await page.goto(url.href, { waitUntil: 'domcontentloaded', timeout: 90_000 });
   await page.waitForFunction(
     () =>
-      window.__godsEyeView?.dataManager &&
+      window.__bident?.dataManager &&
       document.getElementById('loading-screen')?.classList.contains('hidden'),
     { timeout: 120_000 },
   );
   await page.evaluate(
-    () => window.__godsEyeView.styleManager.initialRestorePromise,
+    () => window.__bident.styleManager.initialRestorePromise,
   );
   await page.keyboard.press('Escape');
   await installFrameProbe(page);
@@ -207,7 +207,7 @@ try {
     const samples = [];
     window.__gevAlprSamples = samples;
     setInterval(() => {
-      const entry = window.__godsEyeView.dataManager.layers.get('alpr-cameras');
+      const entry = window.__bident.dataManager.layers.get('alpr-cameras');
       const stats = entry?.module?.getStats?.() || {};
       // Layers that publish a render revision are measured by it; otherwise
       // hash the rendered entity ids and their visibility.
@@ -219,7 +219,7 @@ try {
       } else {
         const entities =
           entry?.module && entry.enabled
-            ? window.__godsEyeView.viewer.dataSources.getByName(
+            ? window.__bident.viewer.dataSources.getByName(
                 'alpr-cameras',
               )[0]?.entities.values || []
             : [];
@@ -252,7 +252,7 @@ try {
     await page
       .waitForFunction(
         () => {
-          const { scene } = window.__godsEyeView.viewer;
+          const { scene } = window.__bident.viewer;
           if (scene.globe.show) return scene.globe.tilesLoaded;
           for (let i = 0; i < scene.primitives.length; i++) {
             const p = scene.primitives.get(i);
@@ -274,13 +274,13 @@ try {
     if (
       alpr !==
       (await page.evaluate(() =>
-        window.__godsEyeView.dataManager.isEnabled('alpr-cameras'),
+        window.__bident.dataManager.isEnabled('alpr-cameras'),
       ))
     ) {
       // The user's switch: the layer row, not a private API.
       await page.evaluate(
         (enabled) =>
-          window.__godsEyeView.dataManager.setEnabled('alpr-cameras', enabled, {
+          window.__bident.dataManager.setEnabled('alpr-cameras', enabled, {
             origin: 'user',
           }),
         alpr,
@@ -290,7 +290,7 @@ try {
       // Self-test: drop explicit render requests so markers reach the screen
       // only with the next camera move. The rendered-pixel checks must fail.
       await page.evaluate(() => {
-        window.__godsEyeView.viewer.scene.requestRender = () => {};
+        window.__bident.viewer.scene.requestRender = () => {};
       });
     const pass = { name: passName, alpr, stops: [] };
     for (const stop of STOPS) {
@@ -310,7 +310,7 @@ try {
       if (alpr) {
         const shown = await cyanCount(await page.screenshot({ type: 'png' }));
         await page.evaluate(async () => {
-          const { scene } = window.__godsEyeView.viewer;
+          const { scene } = window.__bident.viewer;
           const mode = scene.requestRenderMode;
           scene.requestRenderMode = false;
           for (let i = 0; i < 4; i++)

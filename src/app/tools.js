@@ -142,7 +142,7 @@ export function createApplicationTools({
   // loop burning behind a hidden tab. (perf wave 2 fix)
   syncVisibilitySuspension();
 
-  window.__godsEyeView = {
+  window.__bident = {
     viewer,
     styleManager,
     tileset,
@@ -156,9 +156,9 @@ export function createApplicationTools({
     surfaceServices: operations.surface,
     requestRender: governorRequestRender,
   };
-  const debug = window.__godsEyeView;
+  const debug = window.__bident;
   defer(() => {
-    if (window.__godsEyeView === debug) delete window.__godsEyeView;
+    if (window.__bident === debug) delete window.__bident;
   });
   const voiceCommands = initGevVoiceCommands({
     ...voice,

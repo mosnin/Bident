@@ -24,16 +24,16 @@ Bilawal Sidhu created and owns the following 17 GIFs and has authorized their in
 
 Copyright © Bilawal Sidhu. These files are not covered by the project's MIT License. Permission is limited to their inclusion and redistribution with this repository and its project documentation. No permission is granted for standalone reuse or modification. Commercial reuse outside this repository requires separate permission. No share-alike license applies.
 
-The GIFs are promotional captures of God's Eye View. They include Google Photorealistic 3D Tiles and public or third-party data layers with in-frame attribution. Bilawal Sidhu's ownership and permission cover the captures and his likeness; they do not replace the terms of Google Maps Platform or any displayed data provider. Keep the visible attribution intact.
+The GIFs are promotional captures of Bident. They include Google Photorealistic 3D Tiles and public or third-party data layers with in-frame attribution. Bilawal Sidhu's ownership and permission cover the captures and his likeness; they do not replace the terms of Google Maps Platform or any displayed data provider. Keep the visible attribution intact.
 
 ## Public README PNGs
 
-Bilawal Sidhu published the following PNGs in the existing public `bilawalsidhu/gods-eye-view` repository and authorized their continued inclusion and redistribution with this repository and its project documentation:
+Bilawal Sidhu published the following PNGs in the existing public `bilawalsidhu/bident` repository and authorized their continued inclusion and redistribution with this repository and its project documentation:
 
 - `youtube-popular-videos.png`
 - `open-source-survey.png`
 
-Source: [`assets/youtube-popular-videos.png`](https://github.com/bilawalsidhu/gods-eye-view/blob/7afb3beefb2dd39110ed117c8f06825e9ca2ada4/assets/youtube-popular-videos.png) and [`assets/open-source-survey.png`](https://github.com/bilawalsidhu/gods-eye-view/blob/7afb3beefb2dd39110ed117c8f06825e9ca2ada4/assets/open-source-survey.png) in public repository commit [`7afb3beefb2dd39110ed117c8f06825e9ca2ada4`](https://github.com/bilawalsidhu/gods-eye-view/commit/7afb3beefb2dd39110ed117c8f06825e9ca2ada4). The localized files preserve the source bytes unchanged.
+Source: [`assets/youtube-popular-videos.png`](https://github.com/mosnin/Bident/blob/7afb3beefb2dd39110ed117c8f06825e9ca2ada4/assets/youtube-popular-videos.png) and [`assets/open-source-survey.png`](https://github.com/mosnin/Bident/blob/7afb3beefb2dd39110ed117c8f06825e9ca2ada4/assets/open-source-survey.png) in public repository commit [`7afb3beefb2dd39110ed117c8f06825e9ca2ada4`](https://github.com/mosnin/Bident/commit/7afb3beefb2dd39110ed117c8f06825e9ca2ada4). The localized files preserve the source bytes unchanged.
 
 These files are not covered by the project's MIT License. No permission is granted for standalone reuse or modification. Commercial reuse outside this repository requires separate permission. No share-alike license applies.
 

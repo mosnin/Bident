@@ -11,14 +11,14 @@ import {
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { overpassProxy } from 'gods-eye-view/server/providers/overpass';
-import { militaryInstallationsProxy } from 'gods-eye-view/server/providers/military-installations';
+import { overpassProxy } from 'bident/server/providers/overpass';
+import { militaryInstallationsProxy } from 'bident/server/providers/military-installations';
 import {
   regionalBriefProxy,
   weatherEffectsProxy,
-} from 'gods-eye-view/server/providers/regional';
-import { openAiRealtimeProxy } from 'gods-eye-view/server/providers/openai';
-import { keySetupEndpoint } from 'gods-eye-view/server/standalone/key-setup';
+} from 'bident/server/providers/regional';
+import { openAiRealtimeProxy } from 'bident/server/providers/openai';
+import { keySetupEndpoint } from 'bident/server/standalone/key-setup';
 import { realtimeInstructions } from '../../server/providers/openai/instructions.js';
 import { GEV_REALTIME_TOOLS } from '../../server/providers/openai/tools.js';
 import { standaloneVoiceTools } from '../../server/standalone/voiceTools.js';
@@ -220,7 +220,7 @@ test('Realtime sessions carry supplied tools, and the standalone voice adds the 
   );
   assert.ok(names.includes('get_weather'));
   assert.ok(names.includes('military_awareness'));
-  assert.ok(!names.includes('show_in_gods_eye_view'));
+  assert.ok(!names.includes('show_in_bident'));
   assert.ok(!names.includes('aircraft_in_area'));
   assert.ok(!names.includes('get_weather_map'));
   // The action of the same name answers satellite passes.
