@@ -2,6 +2,7 @@ import path from 'node:path';
 import { promises as fsp } from 'node:fs';
 
 import { filterTrailing24h, parseFirmsCsv } from '../../src/data/firmsCsv.js';
+import { cacheRoot } from './common/source-root.js';
 
 /**
  * NASA FIRMS live active-fire proxy with a memory + disk cache.
@@ -35,7 +36,7 @@ export function firmsProxy() {
     'VIIRS_SNPP_NRT',
     'MODIS_NRT',
   ];
-  const CACHE_DIR = path.join(process.cwd(), '.gev-cache');
+  const CACHE_DIR = path.join(cacheRoot(), '.gev-cache');
   const CACHE_PATH = path.join(CACHE_DIR, 'firms.json');
 
   /** @type {?{at: number, sources: Array<object>, fires: Array<object>}} */

@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import { resolveAllowedHosts } from '../../build/allowedHosts.js';
 import { createBrowserViteConfig } from '../../build/vite.js';
+import { desktopDataDir } from '../providers/common/source-root.js';
 import { localProviderPlugins } from '../providers/local.js';
 import { localMcpPlugin } from '../mcp/plugin.js';
 import { apiNotFoundPlugin } from './api-not-found.js';
@@ -11,7 +12,9 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 
 /** Load this checkout's configuration and attach its local provider middleware. */
 export default defineConfig(({ command, mode }) => {
-  const loaded = loadEnv(mode, root, '');
+  // The desktop app keeps its .env beside its caches in the per-user data
+  // directory (see desktop/main.js); every other launch reads the checkout's.
+  const loaded = loadEnv(mode, desktopDataDir() || root, '');
   for (const [key, value] of Object.entries(loaded)) {
     if (process.env[key] === undefined) process.env[key] = value;
   }

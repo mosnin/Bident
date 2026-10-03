@@ -1,4 +1,4 @@
-import { defaultSourceRoot } from '../common/source-root.js';
+import { defaultSourceRoot, desktopDataDir } from '../common/source-root.js';
 import path from 'node:path';
 import { readRequestBody } from '../common/request.js';
 import { promises as fsp } from 'node:fs';
@@ -24,7 +24,7 @@ const REALTIME_DEBUG_LOG_MAX_FILE_BYTES = 32 * 1024 * 1024;
 const REALTIME_DEBUG_LOG_MAX_PER_MIN = 120;
 
 function createDebugLogHandler({ sourceRoot = defaultSourceRoot } = {}) {
-  const logDir = path.join(sourceRoot, '.gev-logs');
+  const logDir = path.join(desktopDataDir() || sourceRoot, '.gev-logs');
   const logFile = path.join(logDir, 'realtime-conversations.jsonl');
   const allow = makeRateLimiter({
     windowMs: 60_000,

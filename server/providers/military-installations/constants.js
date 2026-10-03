@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { cacheRoot } from '../common/source-root.js';
 
 // ---------------------------------------------------------------------------
 // Military-installation context proxy
@@ -34,7 +35,7 @@ const MILITARY_INSTALLATION_DISK_TTL_MS = 30 * 86_400_000;
 
 /** Disk-cache directory for mapped installation payloads. */
 const MILITARY_INSTALLATION_DISK_DIR = path.join(
-  process.cwd(),
+  cacheRoot(),
   '.gev-cache',
   'military-installations',
 );

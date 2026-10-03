@@ -1,11 +1,11 @@
 import path from 'node:path';
+import { cacheRoot } from '../common/source-root.js';
 
 // ---------------------------------------------------------------------------
 // Overpass API proxy constants and cache state
 // ---------------------------------------------------------------------------
 /** Stable application identity for operator-configured Overpass instances. */
-const OVERPASS_USER_AGENT =
-  'bident/0.1 (+https://github.com/mosnin/Bident)';
+const OVERPASS_USER_AGENT = 'bident/0.1 (+https://github.com/mosnin/Bident)';
 
 /** Parse only operator-supplied HTTP(S) endpoints; private instances are allowed. */
 function parseOverpassUpstreams(raw) {
@@ -60,7 +60,7 @@ const OVERPASS_DISK_TTL_MS = 7 * 86_400_000;
 const OVERPASS_BOUNDARY_DISK_TTL_MS = 30 * 86_400_000;
 
 /** Disk-cache directory for Overpass responses. */
-const OVERPASS_DISK_DIR = path.join(process.cwd(), '.gev-cache', 'overpass');
+const OVERPASS_DISK_DIR = path.join(cacheRoot(), '.gev-cache', 'overpass');
 
 /** Per-upstream fetch timeout (ms). */
 const OVERPASS_TIMEOUT_MS = 22000;

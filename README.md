@@ -24,7 +24,7 @@ _No place left behind._
 
 _“pretty cool”_ — [Brendan Eich](https://x.com/BrendanEich/status/2094592096401490266), creator of JavaScript and co-founder of Mozilla and Brave · Featured on **[Pinokio](https://pinokio.co/posts/01m1m4p9xxm3qw7dnnpj2wr93g)**
 
-⚡ **Start without API keys.** Install with [Pinokio](https://pinokio.co/apps/github-com-bilawalsidhu-bident) or run locally from the terminal. Add optional keys inside the app. **[→ Quick Start](#-quick-start)**
+⚡ **Start without API keys.** Run the native macOS app or run locally from the terminal. Add optional keys inside the app. **[→ Quick Start](#-quick-start)**
 
 </div>
 
@@ -103,19 +103,32 @@ app's **POWER UP** panel; [Keys & Costs](#-api-keys) explains the options.
 > public OpenStreetMap Overpass servers, which now refuse them, so Traffic,
 > Mapped Installations and ALPR stay empty until you update.
 
-### Path 1 — One click, no terminal
+### Path 1 — Native macOS app
 
-1. Install or update [Pinokio](https://desktop.pinokio.co/) to **8.2 or later**.
-2. Open [Bident in Pinokio](https://pinokio.co/apps/github-com-bilawalsidhu-bident).
-3. Click **Install**, then **Start**.
+Bident ships as a regular Mac app (Apple silicon) with the local server built
+in: no Node.js, no terminal.
 
-Available on **Windows, macOS, and Linux**. The Pinokio maintainer reports
-cross-platform testing of the fixed installer. The launcher installs the
-locked dependencies, finds a free local port, and opens the app.
+1. Download `Bident-<version>-arm64.dmg` from the latest
+   [macOS app build](https://github.com/mosnin/Bident/actions/workflows/desktop.yml)
+   (open the newest green run and grab the **Bident-macOS-arm64** artifact).
+2. Open the disk image and drag **Bident** into **Applications**.
+3. Builds without a Developer ID certificate are ad-hoc signed, so the first
+   launch needs **right-click → Open** (or run
+   `xattr -dr com.apple.quarantine /Applications/Bident.app`).
 
-**Tried before and installation failed?** Update Pinokio and try again.
-Version 8.2 fixes the launcher installation issue;
-[details from the Pinokio maintainer](https://pinokio.co/posts/01m1m4p9xxm3qw7dnnpj2wr93g).
+Keys added in the **POWER UP** panel, provider caches and logs live in
+`~/Library/Application Support/Bident` (**Help → Open Data Folder**). To build
+the app yourself on a Mac, run `npm ci && npm run desktop:dist`; the disk image
+lands in `release/`. `npm run desktop` runs it straight from a checkout.
+
+The app is an [Electron](https://www.electronjs.org/) shell around the same
+local Vite server as Path 2 (see `desktop/main.js`). Setting the
+`MAC_CERTIFICATE_P12_BASE64`, `MAC_CERTIFICATE_PASSWORD`, `APPLE_ID`,
+`APPLE_APP_SPECIFIC_PASSWORD` and `APPLE_TEAM_ID` repository secrets makes the
+workflow sign and notarize the build.
+
+Pinokio users can still install Bident from this repository's URL; the
+`pinokio/` launcher is unchanged.
 
 ### Path 2 — Terminal / coding agent
 
@@ -124,7 +137,7 @@ Node 25, which is end-of-life.
 
 ```bash
 git clone https://github.com/mosnin/Bident.git
-cd bident
+cd Bident
 npm ci
 npm run doctor
 npm run dev
@@ -154,8 +167,9 @@ restarts itself with the new capability on. Once everything is configured the
 chip reads **POWERED UP** — and if a compact layout hides it, `?setup=1`
 reopens the same panel.
 
-- **Where keys land:** Pinokio → the app's ignored `pinokio/ENVIRONMENT`; a
-  terminal clone → the repo-root `.env`. Either file is made owner-only
+- **Where keys land:** the macOS app →
+  `~/Library/Application Support/Bident/.env`; Pinokio → the app's ignored
+  `pinokio/ENVIRONMENT`; a terminal clone → the repo-root `.env`. Each file is made owner-only
   _before_ a secret is written into it. These are local plaintext files,
   excluded from Git; the app uses your keys to contact the providers.
 - **Keys you already have stay yours:** values from your shell or the macOS

@@ -23,6 +23,8 @@ jobs:
         node: [24.14.0, 26.x]
     env:
       PUPPETEER_SKIP_DOWNLOAD: '1'
+      # The macOS app is built and smoke-tested in desktop.yml.
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       GEV_REQUIRE_ALLOCATION_GATE: ${{ matrix.node == '24.14.0' && '1' || '0' }}
     steps:
       - name: Check out source
