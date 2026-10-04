@@ -1,4 +1,4 @@
-/** Links that open God's Eye View at a view. */
+/** Links that open Bident at a view. */
 
 import { VIEW_PROPERTIES, createView, viewUrl } from '../../view/index.js';
 import { defineTool, ToolError } from '../catalog.js';
@@ -104,12 +104,12 @@ function appBase(services) {
   }
 }
 
-export const showInGodsEyeView = defineTool({
-  name: 'show_in_gods_eye_view',
-  title: "Show in God's Eye View",
+export const showInBident = defineTool({
+  name: 'show_in_bident',
+  title: 'Show in Bident',
   description:
-    "Shows a view in God's Eye View: in clients that display apps, the live " +
-    "God's Eye View globe in the conversation; everywhere, a link that opens " +
+    'Shows a view in Bident: in clients that display apps, the live ' +
+    'Bident globe in the conversation; everywhere, a link that opens ' +
     'it. Pass the view another answer returned, or describe one: an area ' +
     'framed from above or a camera position, with chosen data layers, visual ' +
     'style and map, optionally following an aircraft (or riding in its ' +
@@ -130,7 +130,7 @@ export const showInGodsEyeView = defineTool({
     });
     const url = viewUrl(base, view);
     return {
-      summary: `Open ${label} in God's Eye View: ${url}`,
+      summary: `Open ${label} in Bident: ${url}`,
       data: { url, view },
     };
   },

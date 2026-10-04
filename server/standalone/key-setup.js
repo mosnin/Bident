@@ -6,7 +6,10 @@ import {
   validateKeySetupUpdates,
   upsertDotenvValues,
 } from '../../src/keySetupCore.mjs';
-import { defaultSourceRoot } from '../providers/common/source-root.js';
+import {
+  defaultSourceRoot,
+  desktopDataDir,
+} from '../providers/common/source-root.js';
 import path from 'node:path';
 import { readEnvironmentSource as readPinokioEnvironmentSource } from '../../scripts/pinokio-environment.mjs';
 import fs from 'node:fs';
@@ -22,6 +25,14 @@ import { hardenCredentialFile } from './key-setup-hardening.mjs';
  * value a project `.env` could inject.
  */
 const LAUNCHER_AT_BOOT = process.env.GEV_LAUNCHER;
+
+/**
+ * The macOS desktop app (desktop/main.js) runs from a read-only, signed app
+ * bundle, so its credential store lives in the per-user data directory it
+ * names here instead of the source root. Captured at boot for the same reason
+ * as the launcher marker.
+ */
+const DESKTOP_DATA_DIR_AT_BOOT = desktopDataDir();
 
 /**
  * Provider values present before Vite loads the checkout's dotenv files.
@@ -95,10 +106,9 @@ function keySetupEndpoint({ sourceRoot = defaultSourceRoot } = {}) {
   const storeName = () =>
     pinokioManaged() ? 'pinokio-environment' : 'env-file';
   const storePath = () =>
-    path.join(
-      sourceRoot,
-      ...(pinokioManaged() ? ['pinokio', 'ENVIRONMENT'] : ['.env']),
-    );
+    pinokioManaged()
+      ? path.join(sourceRoot, 'pinokio', 'ENVIRONMENT')
+      : path.join(DESKTOP_DATA_DIR_AT_BOOT || sourceRoot, '.env');
   // Read the store, distinguishing "no store yet" from "cannot read this
   // store". Only ENOENT means empty. Every other failure — a permission error,
   // an I/O fault, an undecodable file — must ABORT the save: upserting into a

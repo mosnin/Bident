@@ -22,7 +22,7 @@ function fixture(name, overrides = {}, preview = false) {
   const logs = [];
   const deps = {
     readResponseTextCapped, coalesceProxyRequest,
-    path, process: { cwd: () => '/fixture', env: {} },
+    path, process: { cwd: () => '/fixture', env: {} }, cacheRoot: () => '/fixture',
     fsp: {
       readFile: async () => { throw new Error('cache absent'); },
       stat: async () => { throw new Error('cache absent'); },

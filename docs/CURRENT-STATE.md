@@ -1,11 +1,11 @@
-# God's Eye View Current State
+# Bident Current State
 
-## God's Eye View in conversations — October 2, 2026
+## Bident in conversations — October 2, 2026
 
-Tool answers that can be shown in God's Eye View include a view: camera, layers,
+Tool answers that can be shown in Bident include a view: camera, layers,
 style, map, marks and an aircraft or satellite to follow, written in the
-share-link format (`gods-eye-view/view`). `show_in_gods_eye_view` shows a view as live
-God's Eye View inside clients that display MCP Apps, and as a link everywhere.
+share-link format (`bident/view`). `show_in_bident` shows a view as live
+Bident inside clients that display MCP Apps, and as a link everywhere.
 The panel runs the app's panel build (`npm run build:panel`, served at
 `/panel/`) and loads it, with its data, through the MCP server, so it works
 in Claude Desktop and in the Codex and ChatGPT desktop apps with a local
@@ -16,8 +16,8 @@ what to show. See [tools and the MCP server](TOOLS.md).
 
 ## Tools and local MCP server — October 1, 2026
 
-`gods-eye-view/tools` defines queries that answer questions from the app's data,
-and `gods-eye-view/tools/mcp` exposes a composed catalog over the Model Context
+`bident/tools` defines queries that answer questions from the app's data,
+and `bident/tools/mcp` exposes a composed catalog over the Model Context
 Protocol. `npm run mcp` serves Core's tools over stdio to a local MCP client,
 reading from a running app's `/api` routes (default `http://localhost:4173`).
 The development and preview servers also serve the tools over HTTP at `/mcp`,
@@ -643,7 +643,7 @@ sea-surface placement, click ownership and card selection policy are unchanged.
 
 ## Military-flight components and aircraft mechanics
 
-`gods-eye-view/layers/military` exports `createMilitaryFlightLayer`. It uses the
+`bident/layers/military` exports `createMilitaryFlightLayer`. It uses the
 same normalized observation contract as civil flights, with separate military
 classification, styling, model and tracking policy. Each instance owns its
 contacts, history, scratch objects, model loads and cancellation lifetime.
@@ -652,7 +652,7 @@ Applications supply the existing scene services and resolve model asset URLs;
 A source may retain a bounded stale-status reason; the standalone cached-feed
 behavior remains unchanged.
 
-`gods-eye-view/aircraft` exports the existing shared classification, icon,
+`bident/aircraft` exports the existing shared classification, icon,
 metadata, motion, altitude, model-anchor, proximity and selection calculations.
 It also exports `createMilitaryRegistry`, an explicitly constructed owner for
 known military identities and active-layer transitions. Its optional background
@@ -665,7 +665,7 @@ starts no network request. Both standalone aircraft layers use one registry.
 
 ## Civil-flight components
 
-`gods-eye-view/layers/flights` exports `createCivilFlightLayer`. Each instance
+`bident/layers/flights` exports `createCivilFlightLayer`. Each instance
 owns its contacts, histories, model collections, scratch objects and lifecycle.
 State, ingestion, enrichment, motion/floor interpolation, rendering, tracking and
 queries live in separate files under `src/layers/flights`. The standalone
@@ -682,7 +682,7 @@ camera, terrain floor, trail, selection and measured model-size policies remain.
 ## Browser live-source observations
 
 Flights, Military Flights and AIS Vessels obtain snapshots and optional history
-through `gods-eye-view/sources/live`. The standalone adapters use the existing
+through `bident/sources/live`. The standalone adapters use the existing
 same-origin routes. Aircraft observations distinguish barometric metres from
 WGS84 ellipsoid metres and retain source position/contact epochs; vessel records
 retain separate heading/course and sea-surface datum. History is a best-effort
@@ -709,7 +709,7 @@ Scene controls consume playback state and editing outcomes from the director.
 Progress updates carry a small playback snapshot and preserve shot-row identity;
 editing outcomes include a copy of the affected scene or shot. Subscriptions
 start with current state, isolate listener failures and stop on disposal.
-`gods-eye-view/scenes` exports the same director used by the standalone app.
+`bident/scenes` exports the same director used by the standalone app.
 
 ## UI shell and component ownership
 
@@ -1010,8 +1010,8 @@ Local composition now imports separate Node modules for Re:Earth heights,
 TomTom flow tiles, NASA FIRMS detections and GBFS station feeds. Existing routes,
 plugin order, server-key selection, validation, disk caches, budgets, retries
 and stale/error responses remain unchanged. Each has a Node-only package entry
-under `gods-eye-view/server/providers/`. Portable terrain mechanics, traffic tile
-math and GBFS source rules are available under `gods-eye-view/sources/`.
+under `bident/server/providers/`. Portable terrain mechanics, traffic tile
+math and GBFS source rules are available under `bident/sources/`.
 The browser layers and their rendering remain in their existing modules.
 
 ## Terrain height cache bound
@@ -1045,7 +1045,7 @@ retain their established behavior.
 `server/providers/space/` owns the CelesTrak TLE and Launch Library 2 Node
 proxies. Their routes, six-hour/15-minute caches, disk storage, stale fallback,
 request coalescing and optional LL2 server token retain existing behavior.
-The Node-only `gods-eye-view/server/providers/space` export supplies factories;
+The Node-only `bident/server/providers/space` export supplies factories;
 `sources/space` supplies fixed upstream URL builders with no I/O or environment
 access. Callers retain validation, transport and response policy.
 
@@ -1058,7 +1058,7 @@ provider families own their middleware and process state in focused modules.
 Provider URLs, key selection, cache behavior, setup restrictions and routes are
 unchanged.
 
-`gods-eye-view/build/vite` is a Node-only export for explicit browser build
+`bident/build/vite` is a Node-only export for explicit browser build
 settings: Cesium assets, caller-supplied plugins, browser key defines, server
 binding and document/credential protections. It never reads an environment file
 or constructs providers. The standalone caller owns those choices.
@@ -1234,10 +1234,10 @@ in `ais-store.js`. Common response caps, request coalescing and query parsing
 have their own modules. `server/providers/local.js` composes these with the
 remaining providers and retains existing named compatibility exports.
 
-`gods-eye-view/server/providers/live` is a Node-only entry for the existing
+`bident/server/providers/live` is a Node-only entry for the existing
 plugins and shared request helpers. Importing it starts no sockets or timers.
 The existing aircraft normalizer is separately available through the portable
-`gods-eye-view/sources/adsb-lol` export. Provider URLs, local credentials, cache
+`bident/sources/adsb-lol` export. Provider URLs, local credentials, cache
 policy, fallback behavior, response shapes and rendering remain unchanged.
 
 ## Control names for assistive technology
@@ -2886,7 +2886,7 @@ Historical planning documents may not match runtime behavior.
 
 ## Current Baseline
 
-- Repository metadata and public URLs use the `bilawalsidhu/gods-eye-view`
+- Repository metadata and public URLs use the `bilawalsidhu/bident`
   project identity. Runtime behavior is defined by this document and the current
   source tree rather than historical branch notes.
 
@@ -3560,7 +3560,7 @@ silently demoting every later lookup for the session.
   auto-calibration and the drape mesh pipeline are deleted. A one-shot activation obstruction
   probe (`pickFromRay` on camera activation, clamping the plane short of the first hit) remains;
   ground placement is superseded by the shared-floor v3 behavior below. Calibration persists to
-  `godsEyeView.cctv.calibration.v2` (wiped clean, no v1 import); a panel-only CAL badge shows
+  `bident.cctv.calibration.v2` (wiped clean, no v1 import); a panel-only CAL badge shows
   `CALIBRATED`/`CURATED`/`RAW PRIOR` (no in-world tint). Panel is titled "CCTV" (not "CCTV
   MESH"). Staggered geometry/frame loading is active-first and uses 4 records per 120 ms normally,
   or 2 per 250 ms while tracking/cockpit owns the view (re-evaluated each batch), with coalesced progress
@@ -3652,7 +3652,7 @@ Public Overpass instances are not used by default. `OVERPASS_UPSTREAMS` is a
 server-only comma-separated list of HTTP(S) instances the operator runs or pays
 for, resolved lazily after env loading. It replaces the empty default list;
 there is no built-in fallback. Local/private instances are allowed. The stable
-`gods-eye-view/…` User-Agent is unchanged. URLs never appear in response headers
+`bident/…` User-Agent is unchanged. URLs never appear in response headers
 or upstream errors, including old cached endpoint metadata.
 
 The shared transport guards `/api/overpass` and `/api/military-installations`.
@@ -3907,11 +3907,11 @@ and unreachable upstream (502/504) separately from road geometry.
 - **Visual grounding**: at `local` view scale with no structured identity, the client captures the Cesium canvas (≤1200px JPEG, black-frame detection, double-render for freshness) and sends it as `input_image` with a strict "do not invent labels" instruction.
 - **Context window**: only the latest viewport screenshot stays in context — the client deletes the prior image item (`conversation.item.delete`) before adding a new one (images are the most expensive item, re-billed every turn). Text history is bounded by the **server-side** `truncation: { type: 'retention_ratio', retention_ratio, token_limits.post_instructions }` set in `/api/realtime/token` (cache-friendly batched truncation). There is intentionally **no** client-side per-turn conversation-item cap — deleting from the front of history each turn busts the Realtime prompt cache. A spatially-aware summarize-and-prune policy is specced for a future iteration.
 - **Model tier + spend guard** (`src/voice/voiceCost.js`, August 2026): the voice heading row carries a `STD`/`MINI` toggle and a running session-cost readout (`~$0.42`).
-  - **Tier selection.** `standard` = `gpt-realtime-2` (default), `mini` = `gpt-realtime-2.1-mini` (~3× cheaper per audio token). The client sends `?tier=` to `/api/realtime/token`; the endpoint resolves it through the shared registry, so an unknown, empty, or hostile value falls back to `standard` rather than reaching OpenAI as a model id. Responses echo `X-GEV-Voice-Tier` / `X-GEV-Voice-Model` (plus `X-GEV-Voice-Tier-Fallback: 1` when a bogus tier was downgraded). Persisted at `godsEyeView.voiceCost.tier`.
+  - **Tier selection.** `standard` = `gpt-realtime-2` (default), `mini` = `gpt-realtime-2.1-mini` (~3× cheaper per audio token). The client sends `?tier=` to `/api/realtime/token`; the endpoint resolves it through the shared registry, so an unknown, empty, or hostile value falls back to `standard` rather than reaching OpenAI as a model id. Responses echo `X-GEV-Voice-Tier` / `X-GEV-Voice-Model` (plus `X-GEV-Voice-Tier-Fallback: 1` when a bogus tier was downgraded). Persisted at `bident.voiceCost.tier`.
   - **Applies NEXT session.** The model is fixed when the ephemeral token is minted, so a live session always keeps the model it connected with; toggling mid-session only records the preference (the button title says so). The cost tracker's lifetime is the session's lifetime and its model binding is immutable from `start()` to `stop()` — rebuilding it on toggle would erase accrued spend and let repeated toggles bypass the cap. The tracker may only be replaced once the session is FULLY SETTLED (`isVoiceSessionSettled()`: not active **and** no data channel **and** no peer connection) — `!isActive()` alone is not enough, because the `error` status reports inactive while the transport can still deliver a late `response.done`. The toggle itself reads and writes only the persisted preference, never the live tracker.
   - **Env overrides.** `OPENAI_REALTIME_MODEL` / `OPENAI_REALTIME_MODEL_MINI` remain authoritative per tier, so a drifted upstream model id is a `.env` fix rather than a code change. Because an override can point a tier at any model, the client prices against the model id the server actually echoed, **not** the tier it requested. An unrecognised id is billed at the most expensive known rates plus one console warning — under-metering is what lets a cap be overrun.
   - **Metering.** Token usage from each `response.done` is folded into a per-session estimate. Cached tokens are subtracted from their modality totals; any aggregate-minus-details residual (and any payload with no detail at all) is attributed to audio rates, so uncertainty always resolves _upward_.
-  - **Thresholds** (one object, persisted at `godsEyeView.voiceCost.limits`): soft warning at **$2** — amber readout plus exactly one console line; hard cap at **$5** — the session ends through the ordinary stop path (data channel and peer connection closed, mic tracks stopped) and the readout reads `Session ended — cost cap`. `0`/negative disables a threshold and round-trips through storage as an `'off'` sentinel (raw `Infinity` would JSON-serialize to `null` and silently restore the default); a corrupt entry falls back to the defaults rather than disarming the cap.
+  - **Thresholds** (one object, persisted at `bident.voiceCost.limits`): soft warning at **$2** — amber readout plus exactly one console line; hard cap at **$5** — the session ends through the ordinary stop path (data channel and peer connection closed, mic tracks stopped) and the readout reads `Session ended — cost cap`. `0`/negative disables a threshold and round-trips through storage as an `'off'` sentinel (raw `Infinity` would JSON-serialize to `null` and silently restore the default); a corrupt entry falls back to the defaults rather than disarming the cap.
   - **Cap semantics — in-flight tools COMPLETE and are NOT rolled back.** A session-ending latch (`isSessionEnding()`) is checked at the tool-dispatch site, so no _new_ tool is dispatched once the cap trips. `extractFunctionCalls` yields at most one call per event, so that single check covers the whole batch. A tool already executing may still finish its map mutation (a camera flight, a layer toggle, an annotation). This is deliberate: unwinding a partially applied map change has no safe general implementation, and a half-reverted camera/layer/annotation state is worse than a completed one.
   - **In-flight response at teardown → the accounting is INCOMPLETE.** Usage only arrives with `response.done`, which never comes for a response cut off by teardown (`stop()` closes the peer connection, and the server cancels rather than completes it). Rather than invent a token count for it, the tracker is marked `incomplete`: the chip shows a trailing `*` (`~$1.00*`) as a see-note mark and the tooltip carries the reason. Deliberately **not** presented as a lower bound — the estimate can also run high (residuals and unrecognised models bill at worst-case rates, and sub-cent totals round up), so it is partial rather than directional. (A bounded teardown drain was tried and removed: `pc.close()` closes the data channels a drain would listen on, so it was structurally dead.)
   - **⚠️ Model ids and rates are external facts** read from OpenAI's model + pricing pages on 2026-08-18 and marked VERIFY-AT-RELEASE in `voiceCost.js`.
@@ -4113,7 +4113,7 @@ are omitted rather than framing the wrong part of the globe.
 - A successful Pinokio install writes the owner-only `pinokio/.installed`
   marker. The nested launcher menu resolves that marker from its own directory:
   an absent marker exposes Install, a present marker exposes Start, and a
-  running server with a captured ready URL exposes Open God's Eye View.
+  running server with a captured ready URL exposes Open Bident.
 - Build gate: `npm run build`
 - Network access: local-only by default (`HOST=localhost` in dev-fresh.sh); LAN is an explicit opt-in via `HOST=0.0.0.0` (launcher prints a key-exposure warning + LAN URL; see SECURITY.md)
 - OpenSky default mode: OAuth (`OPENSKY_AUTH_MODE=oauth`; `anon` works without credentials)
@@ -4152,7 +4152,7 @@ are omitted rather than framing the wrong part of the globe.
   canvas; ordinary wheel, line/page-mode and native touch-pinch paths are left
   unchanged. The application scene owns and removes the relay listener.
 - Z ladder: panels promote within 100–139 (renormalized on wrap), voice pill 150, toast 200, clean-view exit 300.
-- Panel POSITION keys are versioned `v8` (`godsEyeView.v8.panelPos.<id>`); collapsed-state keys remain `v6`. The one-time position reset clears stale DISPLAY placements that could overlap the Context rail.
+- Panel POSITION keys are versioned `v8` (`bident.v8.panelPos.<id>`); collapsed-state keys remain `v6`. The one-time position reset clears stale DISPLAY placements that could overlap the Context rail.
 - Map Source lives in the bottom Visual Presets tray. The left accordion contains no MAP STACK panel, and the `k` panel token that addressed it is gone from the share registry, so legacy `ui=k...` state takes the ordinary unknown-token skip.
 - A dock popover (Visual Presets, Location) auto-dismisses on mouse-away unless pinned. Focus inside the tray defers that dismissal only when the browser reports `:focus-visible` — keyboard focus and typed-into fields hold the tray open; a mouse-clicked tile does not, because Chromium focuses a `<button>` on press.
 - GEV MIC control is a glass capsule (var(--glass-bg), blur(24px) saturate(1.4), 999px radius; panel radius in error state).
@@ -4355,14 +4355,14 @@ easier to meet (detection is now on more often), but does not create it.
   short-way-round longitude span and wraps the padded edges, so a dateline-
   crossing box stays its true width. Raw subtraction inflated a 0.41° metro box
   to 86.7° and a 60° territory to 132°.
-- CCTV calibration persists at `godsEyeView.cctv.calibration.v2` (v2 rebuild;
+- CCTV calibration persists at `bident.cctv.calibration.v2` (v2 rebuild;
   the store was wiped clean, no import from the old `v1` key).
 - CCTV v3 floor QA pins are: zero samples for heading-only edits; zero transient
   samples and constant elevation during E/N drag; one shared-floor resolution on
   release; late one-shot shared-cell work is permitted during viewshed idle. The
   A+B harness intentionally excludes citywide LOD assertions.
-- Panel positions have a versioned storage name, `godsEyeView.v8.panelPos.<panel-id>`, but the current rails lay panels out adaptively and write none. Collapsed state does persist for every panel at `godsEyeView.v6.panelCollapsed.<panel-id>` (`'0'` open, `'1'` closed, absent means the panel's own default).
-- Legacy draggable-panel position keys may remain in local storage for backward compatibility, but the map-mode right rail ignores them; collapsed states still persist at `godsEyeView.v6.panelCollapsed.<panel-id>`.
+- Panel positions have a versioned storage name, `bident.v8.panelPos.<panel-id>`, but the current rails lay panels out adaptively and write none. Collapsed state does persist for every panel at `bident.v6.panelCollapsed.<panel-id>` (`'0'` open, `'1'` closed, absent means the panel's own default).
+- Legacy draggable-panel position keys may remain in local storage for backward compatibility, but the map-mode right rail ignores them; collapsed states still persist at `bident.v6.panelCollapsed.<panel-id>`.
 - Flight/military tracked entities cache dead-reckoned positions per frame to avoid callback desync flicker.
 - Aircraft 3D-model and tracking invariants are covered by `npm run test:track`; run this before touching `flights.js`, `militaryFlights.js`, `detection.js`, or `trackedReadout.js`.
 - Annotation resolver behavior is pinned by `src/annotations/annotationResolver.test.mjs`; re-run that suite before changing place-resolution scoring.

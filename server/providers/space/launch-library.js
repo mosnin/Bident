@@ -5,6 +5,7 @@ import {
   coalesceProxyRequest,
 } from '../common/http.js';
 import { launchLibraryRecentUrl } from '../../../src/data/spaceProviderRequests.js';
+import { cacheRoot } from '../common/source-root.js';
 
 export const LL2_CACHE_TTL_MS = 15 * 60_000;
 
@@ -23,7 +24,7 @@ export function rocketLaunchesProxy() {
   const maxResponseBytes = 12 * 1024 * 1024;
   const maxDiskCacheBytes = 24 * 1024 * 1024;
   const cachePath = path.join(
-    process.cwd(),
+    cacheRoot(),
     '.gev-cache',
     'launch-library-2-v2.3.json',
   );

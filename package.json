@@ -1,18 +1,20 @@
 {
-  "name": "gods-eye-view",
+  "name": "bident",
   "private": true,
   "version": "0.2.1",
-  "description": "A real-time intelligence console for planet Earth — photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/CCTV, and hands-free voice control. Runs in a browser.",
+  "description": "A real-time intelligence console for planet Earth — photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/CCTV, and hands-free voice control. Runs in a browser or as a native macOS app.",
   "type": "module",
+  "main": "desktop/main.js",
   "license": "MIT",
   "author": "Bilawal Sidhu",
-  "homepage": "https://github.com/bilawalsidhu/gods-eye-view#readme",
+  "productName": "Bident",
+  "homepage": "https://github.com/mosnin/Bident#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bilawalsidhu/gods-eye-view.git"
+    "url": "https://github.com/mosnin/Bident.git"
   },
   "bugs": {
-    "url": "https://github.com/bilawalsidhu/gods-eye-view/issues"
+    "url": "https://github.com/mosnin/Bident/issues"
   },
   "engines": {
     "node": ">=24.14.0 <25 || >=26 <27"
@@ -48,7 +50,10 @@
     "qa:map-source-tray": "node scripts/qa-map-source-tray.mjs",
     "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs",
     "qa:transit": "node scripts/qa-transit.mjs",
-    "mcp": "node server/mcp/stdio.js"
+    "mcp": "node server/mcp/stdio.js",
+    "desktop": "electron .",
+    "desktop:smoke": "electron . --smoke-test",
+    "desktop:dist": "electron-builder --mac --publish never"
   },
   "dependencies": {
     "@jtarrio/signals": "^0.10.0",
@@ -60,14 +65,16 @@
     "hls.js": "^1.7.3",
     "mgrs": "^2.1.0",
     "pbf": "^5.1.2",
-    "satellite.js": "^6.0.2"
+    "satellite.js": "^6.0.2",
+    "vite": "^6.0.0",
+    "vite-plugin-cesium": "^1.2.23"
   },
   "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
     "prettier": "3.9.6",
     "puppeteer": "^25.10.0",
     "sharp": "^0.35.4",
-    "vite": "^6.0.0",
-    "vite-plugin-cesium": "^1.2.23",
     "ws": "^8.21.0"
   },
   "exports": {
@@ -257,5 +264,56 @@
     "./tools/mcp": "./src/tools/mcp/index.js",
     "./tools/services": "./src/tools/services.js",
     "./view": "./src/view/index.js"
+  },
+  "build": {
+    "appId": "com.mosnin.bident",
+    "productName": "Bident",
+    "copyright": "Copyright © 2026 Bilawal Sidhu and Bident contributors",
+    "directories": {
+      "buildResources": "desktop/resources",
+      "output": "release"
+    },
+    "asar": false,
+    "files": [
+      "package.json",
+      "index.html",
+      "style.css",
+      "vite.config.js",
+      "desktop/**",
+      "build/**",
+      "config/**",
+      "public/**",
+      "server/**",
+      "src/**",
+      "scripts/*.mjs",
+      "!**/*.test.mjs",
+      "!**/*.test.js",
+      "!src/data/fixtures/**",
+      "!scripts/qa-*.mjs",
+      "!desktop/resources/**"
+    ],
+    "mac": {
+      "category": "public.app-category.reference",
+      "icon": "desktop/resources/icon.png",
+      "target": [
+        {
+          "target": "dmg"
+        },
+        {
+          "target": "zip"
+        }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "desktop/resources/entitlements.mac.plist",
+      "entitlementsInherit": "desktop/resources/entitlements.mac.plist",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Bident uses the microphone for hands-free voice control of the globe.",
+        "NSLocationWhenInUseUsageDescription": "Bident can center the globe on your current location."
+      }
+    },
+    "dmg": {
+      "title": "Bident"
+    }
   }
 }
