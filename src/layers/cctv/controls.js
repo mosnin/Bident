@@ -232,8 +232,8 @@ export function createControls({ state: layerState, services, parts, source }) {
     },
 
     /**
-     * Returns basic layer statistics, including initial-load progress while
-     * the staggered geometry queue is draining.
+     * Returns feed readiness separately from background camera geometry work.
+     * Catalog records and frames are usable while the geometry queue drains.
      * @returns {{ count: number, lastUpdate: number|null, error: string|null, loading: boolean, loadingLoaded: number, loadingTotal: number }}
      */
     getStats() {
@@ -241,7 +241,7 @@ export function createControls({ state: layerState, services, parts, source }) {
         count: layerState._count,
         lastUpdate: layerState._lastUpdate,
         error: layerState._lastError,
-        loading: layerState._geoLoading,
+        loading: layerState._geoLoading && layerState._count === 0,
         loadingLoaded: Math.min(
           layerState._geoLoadDone,
           layerState._geoLoadTotal,
