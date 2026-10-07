@@ -19,4 +19,6 @@ output/
 3d-models/
 pinokio/ENVIRONMENT
 pinokio/.installed
+tartarus/ENVIRONMENT
+tartarus/.installed
 release/

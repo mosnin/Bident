@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { applyPinokioEnvironment } from './pinokio-environment.mjs';
 import { isDirectInvocation } from './pinokio-install.mjs';
 import { validatePinokioSharing } from './pinokio-preflight.mjs';
+import { currentLauncher } from './launcher.mjs';
 
 const MODULE_PATH = fileURLToPath(import.meta.url);
 const ROOT = realpathSync(path.resolve(path.dirname(MODULE_PATH), '..'));
@@ -12,7 +13,7 @@ const ROOT = realpathSync(path.resolve(path.dirname(MODULE_PATH), '..'));
 function launchPort(value) {
   const port = Number.parseInt(value, 10);
   if (!Number.isInteger(port) || port < 1 || port > 65535) {
-    throw new Error('Pinokio did not supply a valid local port.');
+    throw new Error(`${currentLauncher().label} did not supply a valid local port.`);
   }
   return port;
 }
@@ -26,15 +27,17 @@ export async function loadViteFromCanonicalRoot(
 }
 
 async function start() {
+  // Read before applying the app ENVIRONMENT, which may not name the launcher.
+  const launcher = currentLauncher();
   applyPinokioEnvironment();
   validatePinokioSharing();
   const port = launchPort(process.env.PORT);
-  // Provider Settings routes credential writes to pinokio/ENVIRONMENT (never
-  // .env) when the app runs under this launcher. The marker is set here — after
+  // Provider Settings routes credential writes to this launcher's ENVIRONMENT
+  // (tartarus/ or pinokio/, never .env). The marker is set here — after
   // applyPinokioEnvironment, before Vite snapshots process.env — so the
   // dev-server endpoint knows which store this launch owns.
-  process.env.GEV_LAUNCHER = 'pinokio';
-  console.log('[Pinokio] Local-only launch.');
+  process.env.GEV_LAUNCHER = launcher.id;
+  console.log(`[${launcher.label}] Local-only launch.`);
 
   // Import Vite only after app-scoped blank fields have replaced any merged
   // Pinokio-global values. Vite snapshots process.env during configuration.
@@ -49,7 +52,7 @@ async function start() {
   });
   await server.listen();
   server.printUrls();
-  console.log(`[Pinokio] Ready at http://127.0.0.1:${port}/`);
+  console.log(`[${launcher.label}] Ready at http://127.0.0.1:${port}/`);
 
   for (const signal of ['SIGINT', 'SIGTERM']) {
     process.once(signal, async () => {
@@ -61,7 +64,7 @@ async function start() {
 
 if (isDirectInvocation(process.argv[1], MODULE_PATH)) {
   start().catch((error) => {
-    console.error(`[Pinokio] Start refused: ${error.message}`);
+    console.error(`[${currentLauncher().label}] Start refused: ${error.message}`);
     process.exitCode = 1;
   });
 }

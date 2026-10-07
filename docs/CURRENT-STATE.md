@@ -1096,10 +1096,11 @@ Local Places nearby/text search and the CCTV Street View fallback prefer
 `GOOGLE_MAPS_SERVER_API_KEY`, falling back to `GOOGLE_MAPS_API_KEY` when the
 server key is blank or absent. Only the browser key is injected into client
 code. POWER UP presents one Google Maps entry for the browser key. The optional
-server key is configured manually in the same ignored root `.env`, or Pinokio's
-ignored `pinokio/ENVIRONMENT`; it is omitted from Provider Settings and its
+server key is configured manually in the same ignored root `.env`, or the
+launcher's ignored `tartarus/ENVIRONMENT` or `pinokio/ENVIRONMENT`; it is omitted from Provider Settings and its
 missing-key count. Existing server keys and the single-key fallback remain
-supported. `.env.example` and `pinokio/_ENVIRONMENT` document both entries.
+supported. `.env.example`, `tartarus/_ENVIRONMENT` and `pinokio/_ENVIRONMENT`
+document both entries.
 The Street View headings tool uses the same server-first selection after
 resolving environment overrides per variable; its explicit `--key` wins.
 
@@ -4110,8 +4111,13 @@ are omitted rather than framing the wrong part of the globe.
 ## Auth + Launch
 
 - Recommended launcher: `./scripts/dev-fresh.sh` (also: `dev-secure.sh` for stricter bindings, `dev-cctv.sh` for CCTV source-pack tuning)
-- A successful Pinokio install writes the owner-only `pinokio/.installed`
-  marker. The nested launcher menu resolves that marker from its own directory:
+- Bident ships two one-click launchers that run the same `scripts/pinokio-*.mjs`
+  scripts: `tartarus/` (Tartarus, which passes `GEV_LAUNCHER=tartarus`) and
+  `pinokio/` (Pinokio). `scripts/launcher.mjs` picks the active one, and each
+  keeps its own `ENVIRONMENT` and install marker in its own folder.
+- A successful install writes the owner-only `.installed` marker in the
+  launcher's folder (`tartarus/.installed` or `pinokio/.installed`). The nested
+  launcher menu resolves that marker from its own directory:
   an absent marker exposes Install, a present marker exposes Start, and a
   running server with a captured ready URL exposes Open Bident.
 - Build gate: `npm run build`

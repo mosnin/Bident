@@ -33,10 +33,11 @@ These are designed to be used directly in the browser (like a Mapbox public toke
 
 **Places and Street View never needed to be on that list** (#33): they're called from the server-side proxies in the table above, which use `GOOGLE_MAPS_SERVER_API_KEY` when it's set. Splitting it from the browser-exposed key lets each key's Google Cloud restriction actually match what it does — the browser key referrer-restricted to the APIs the client loads, the server key IP-restricted (never a referrer, since it never leaves your server) to Places + Street View Static — instead of one key that has to be either over-permissioned or broken for one of its two jobs. A single shared `GOOGLE_MAPS_API_KEY` still works if you don't split them; it just has to cover every API both sides use.
 
-Never commit real keys. `.env` is gitignored; only `.env.example` (placeholder names) is tracked. On macOS `dev-fresh.sh` can read keys from the Keychain; plain Vite uses env vars or a local `.env`, and Pinokio uses its ignored app `ENVIRONMENT` file.
+Never commit real keys. `.env` is gitignored; only `.env.example` (placeholder names) is tracked. On macOS `dev-fresh.sh` can read keys from the Keychain; plain Vite uses env vars or a local `.env`, and Tartarus and Pinokio use their ignored app `ENVIRONMENT` files.
 
-The official Pinokio launcher stores optional values in its ignored local
-`pinokio/ENVIRONMENT` file and Vite explicitly denies that filename. Add,
+The Tartarus and Pinokio launchers store optional values in their ignored local
+`tartarus/ENVIRONMENT` and `pinokio/ENVIRONMENT` files, and Vite explicitly
+denies that filename. Add,
 replace, or remove those values through the in-app **POWER UP → Provider
 Settings** panel; the server restricts the file before writing and restarts the
 local app after a save. Do not submit credentials through Pinokio 8.0.40's
@@ -52,8 +53,8 @@ Terminal development uses one ignored repository-root `.env` for both
 The tracked `.env.example` documents both without credentials. Vite injects
 only the browser key; sharing an environment file does not expose the server
 key. Provider Settings presents only the browser key as Google Maps; configure
-the optional server key manually in the environment file. Pinokio uses
-its ignored `pinokio/ENVIRONMENT` instead, with app values and blanks taking
+the optional server key manually in the environment file. Tartarus and Pinokio
+use their ignored `tartarus/ENVIRONMENT` or `pinokio/ENVIRONMENT` instead, with app values and blanks taking
 precedence over inherited global values. An absent server key retains the
 browser-key fallback for existing single-key setups.
 

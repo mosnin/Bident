@@ -12,6 +12,7 @@ import {
 } from '../providers/common/source-root.js';
 import path from 'node:path';
 import { readEnvironmentSource as readPinokioEnvironmentSource } from '../../scripts/pinokio-environment.mjs';
+import { isLauncherId } from '../../scripts/launcher.mjs';
 import fs from 'node:fs';
 import { parseEnv as parseDotenvText } from 'node:util';
 import { randomUUID } from 'node:crypto';
@@ -93,21 +94,22 @@ function keySetupEndpoint({ sourceRoot = defaultSourceRoot } = {}) {
     res.setHeader('Content-Security-Policy', "frame-ancestors 'none'");
     res.end(JSON.stringify(payload));
   };
-  // Which store this launch owns. A Pinokio-managed launch (marker set by
-  // scripts/pinokio-start.mjs) writes the app-scoped pinokio/ENVIRONMENT that
+  // Which store this launch owns. A launcher-managed launch (Tartarus or
+  // Pinokio; marker set by scripts/pinokio-start.mjs) writes that launcher's
+  // app-scoped tartarus/ENVIRONMENT or pinokio/ENVIRONMENT, which
   // applyPinokioEnvironment() treats as authoritative; every other launch
   // writes the repo-root .env that Vite's loadEnv reads. The panel never
   // touches a store some other workflow owns.
   // The launcher marker is read from the BOOT environment captured before
   // Vite's loadEnv merges dotenv files into process.env — otherwise a stray
   // `GEV_LAUNCHER=pinokio` line in someone's .env would silently redirect a
-  // plain `npm run dev` to write the Pinokio store it never loaded.
-  const pinokioManaged = () => LAUNCHER_AT_BOOT === 'pinokio';
+  // plain `npm run dev` to write a launcher store it never loaded.
+  const pinokioManaged = () => isLauncherId(LAUNCHER_AT_BOOT);
   const storeName = () =>
-    pinokioManaged() ? 'pinokio-environment' : 'env-file';
+    pinokioManaged() ? `${LAUNCHER_AT_BOOT}-environment` : 'env-file';
   const storePath = () =>
     pinokioManaged()
-      ? path.join(sourceRoot, 'pinokio', 'ENVIRONMENT')
+      ? path.join(sourceRoot, LAUNCHER_AT_BOOT, 'ENVIRONMENT')
       : path.join(DESKTOP_DATA_DIR_AT_BOOT || sourceRoot, '.env');
   // Read the store, distinguishing "no store yet" from "cannot read this
   // store". Only ENOENT means empty. Every other failure — a permission error,

@@ -7,6 +7,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { isDirectInvocation } from '../scripts/pinokio-install.mjs';
 import { loadViteFromCanonicalRoot } from '../scripts/pinokio-start.mjs';
+import { currentLauncher } from '../scripts/launcher.mjs';
 
 const require = createRequire(import.meta.url);
 
@@ -69,7 +70,8 @@ test('Pinokio install records success explicitly instead of trusting node_module
   assert.match(installSource, /includeKeychain: false/);
   assert.match(installSource, /authoritativeEnvironment: true/);
   assert.match(installSource, /applyPinokioEnvironment\(\)/);
-  assert.match(installSource, /Return to Pinokio and choose Start/);
+  assert.match(installSource, /Return to \$\{launcher\.label\} and choose Start/);
+  assert.equal(currentLauncher({}).label, 'Pinokio');
   for (const field of APP_VALUE_FIELDS) {
     assertAppFieldForwarded(install.run.at(-1).params.env, field);
   }
@@ -196,7 +198,10 @@ test('Pinokio Update forwards the app fields used by its install doctor', () => 
 test('Pinokio start runner emits an ANSI-independent ready URL', async () => {
   const source = await import('node:fs/promises')
     .then((fs) => fs.readFile(new URL('../scripts/pinokio-start.mjs', import.meta.url), 'utf8'));
-  assert.match(source, /\[Pinokio\] Ready at http:\/\/127\.0\.0\.1:\$\{port\}\//);
+  assert.match(source, /\[\$\{launcher\.label\}\] Ready at http:\/\/127\.0\.0\.1:\$\{port\}\//);
+  // pinokio/start.js waits for this exact line, so a launch Pinokio starts
+  // (no GEV_LAUNCHER) must still be labelled Pinokio.
+  assert.equal(currentLauncher({}).label, 'Pinokio');
   assert.match(source, /applyPinokioEnvironment\(\)/);
   assert.match(source, /loadViteFromCanonicalRoot\(\)/);
   assert.ok(

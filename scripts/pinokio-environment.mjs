@@ -2,9 +2,22 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseEnv } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { currentLauncher } from './launcher.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DEFAULT_ENVIRONMENT_FILE = path.join(ROOT, 'pinokio', 'ENVIRONMENT');
+
+/**
+ * The app-scoped ENVIRONMENT of the launcher driving this process:
+ * tartarus/ENVIRONMENT under Tartarus, pinokio/ENVIRONMENT under Pinokio.
+ *
+ * @param {Record<string, string|undefined>} [env] - Environment naming the launcher.
+ * @returns {string} Absolute path of the file.
+ */
+export function defaultEnvironmentFile(env = process.env) {
+  return path.join(ROOT, currentLauncher(env).dir, 'ENVIRONMENT');
+}
+
+const storeLabel = () => `${currentLauncher().label} ENVIRONMENT`;
 
 export const PINOKIO_CONFIG_FIELDS = Object.freeze([
   'GOOGLE_MAPS_API_KEY',
@@ -68,18 +81,18 @@ export function readEnvironmentSource(filepath) {
   try {
     return new TextDecoder(detectEnvironmentEncoding(buffer), { fatal: true }).decode(buffer);
   } catch {
-    throw new Error('Pinokio ENVIRONMENT could not be decoded as UTF-8 or UTF-16.');
+    throw new Error(`${storeLabel()} could not be decoded as UTF-8 or UTF-16.`);
   }
 }
 
 /** Persist only the non-secret controls Pinokio itself re-reads at local.set. */
-export function ensurePinokioSharingBoundary(filepath = DEFAULT_ENVIRONMENT_FILE) {
+export function ensurePinokioSharingBoundary(filepath = defaultEnvironmentFile()) {
   const original = existsSync(filepath) ? readFileSync(filepath) : null;
   let source = readEnvironmentSource(filepath);
   try {
     if (source) parseEnv(source);
   } catch {
-    throw new Error('Pinokio ENVIRONMENT could not be parsed.');
+    throw new Error(`${storeLabel()} could not be parsed.`);
   }
 
   // Pinokio re-reads this file after the child preflight. Remove every legacy,
@@ -100,7 +113,7 @@ export function ensurePinokioSharingBoundary(filepath = DEFAULT_ENVIRONMENT_FILE
   try {
     configured = parseEnv(source);
   } catch {
-    throw new Error('Pinokio ENVIRONMENT could not be parsed.');
+    throw new Error(`${storeLabel()} could not be parsed.`);
   }
 
   const encoded = Buffer.from(source, 'utf8');
@@ -111,12 +124,12 @@ export function ensurePinokioSharingBoundary(filepath = DEFAULT_ENVIRONMENT_FILE
 }
 
 /** Read the app-scoped Pinokio configuration without exposing its values. */
-export function readPinokioEnvironment(filepath = DEFAULT_ENVIRONMENT_FILE) {
+export function readPinokioEnvironment(filepath = defaultEnvironmentFile()) {
   if (!existsSync(filepath)) return {};
   try {
     return parseEnv(readEnvironmentSource(filepath));
   } catch {
-    throw new Error('Pinokio ENVIRONMENT could not be parsed.');
+    throw new Error(`${storeLabel()} could not be parsed.`);
   }
 }
 
@@ -127,7 +140,7 @@ export function readPinokioEnvironment(filepath = DEFAULT_ENVIRONMENT_FILE) {
  */
 export function applyPinokioEnvironment({
   environment = process.env,
-  filepath = DEFAULT_ENVIRONMENT_FILE,
+  filepath = defaultEnvironmentFile(environment),
 } = {}) {
   const configured = ensurePinokioSharingBoundary(filepath);
   for (const field of PINOKIO_CONFIG_FIELDS) {
