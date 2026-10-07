@@ -10,6 +10,7 @@ import {
   writeFile,
 } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -19,6 +20,7 @@ import {
   isLauncherId,
 } from '../scripts/launcher.mjs';
 import { defaultEnvironmentFile } from '../scripts/pinokio-environment.mjs';
+import { knownKeySetupEnvVars } from './keySetupCore.mjs';
 
 const require = createRequire(import.meta.url);
 const ROOT = realpathSync(new URL('..', import.meta.url));
@@ -232,7 +234,7 @@ test('Provider Settings saves keys to tartarus/ENVIRONMENT under a Tartarus laun
   await mkdir(path.join(sourceRoot, 'tartarus'));
   const child = `
     import { Readable } from 'node:stream';
-    import { keySetupEndpoint } from ${JSON.stringify(path.join(ROOT, 'server/standalone/key-setup.js'))};
+    import { keySetupEndpoint } from ${JSON.stringify(pathToFileURL(path.join(ROOT, 'server/standalone/key-setup.js')).href)};
     const routes = new Map();
     keySetupEndpoint({ sourceRoot: process.argv[1] }).configureServer({
       middlewares: { use: (route, handler) => routes.set(route, handler) },
@@ -255,11 +257,20 @@ test('Provider Settings saves keys to tartarus/ENVIRONMENT under a Tartarus laun
     const status = await call('/api/setup/status', 'GET');
     console.log(JSON.stringify({ saved: saved.status, store: status.body.store }));
   `;
+  // The full environment (Windows needs SystemRoot and friends) minus every
+  // provider key, which would otherwise read as configured outside the panel.
+  const childEnv = { ...process.env, GEV_LAUNCHER: 'tartarus' };
+  for (const name of [
+    ...knownKeySetupEnvVars(),
+    'GEV_KEY_SETUP_EXTERNAL_KEYS',
+  ]) {
+    delete childEnv[name];
+  }
   const output = await new Promise((resolve, reject) => {
     execFile(
       process.execPath,
       ['--input-type=module', '-e', child, sourceRoot],
-      { env: { PATH: process.env.PATH, GEV_LAUNCHER: 'tartarus' } },
+      { env: childEnv },
       (error, stdout, stderr) =>
         error ? reject(new Error(stderr || error.message)) : resolve(stdout),
     );
