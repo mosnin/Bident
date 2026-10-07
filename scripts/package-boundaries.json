@@ -315,6 +315,7 @@
     "runtime": "node",
     "exports": ["./server/standalone/key-setup"],
     "modules": [
+      "scripts/launcher.mjs",
       "scripts/pinokio-environment.mjs",
       "server/providers/common/source-root.js",
       "server/standalone/key-setup.js",

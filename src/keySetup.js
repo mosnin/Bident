@@ -283,7 +283,8 @@ export async function initKeySetup({
   };
 
   const storeLabel = () =>
-    status?.store === 'pinokio-environment'
+    status?.store === 'pinokio-environment' ||
+    status?.store === 'tartarus-environment'
       ? 'your app configuration'
       : 'your local .env';
 

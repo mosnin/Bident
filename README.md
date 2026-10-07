@@ -127,8 +127,10 @@ local Vite server as Path 2 (see `desktop/main.js`). Setting the
 `APPLE_APP_SPECIFIC_PASSWORD` and `APPLE_TEAM_ID` repository secrets makes the
 workflow sign and notarize the build.
 
-Pinokio users can still install Bident from this repository's URL; the
-`pinokio/` launcher is unchanged.
+[Tartarus](https://github.com/mosnin/pluto) installs Bident from its Explore
+page using the `tartarus/` launcher. Pinokio users can still install Bident
+from this repository's URL; the `pinokio/` launcher is unchanged. Each
+launcher keeps its own settings and install state in its own folder.
 
 ### Path 2 — Terminal / coding agent
 
@@ -168,7 +170,8 @@ chip reads **POWERED UP** — and if a compact layout hides it, `?setup=1`
 reopens the same panel.
 
 - **Where keys land:** the macOS app →
-  `~/Library/Application Support/Bident/.env`; Pinokio → the app's ignored
+  `~/Library/Application Support/Bident/.env`; Tartarus → the app's ignored
+  `tartarus/ENVIRONMENT`; Pinokio → the app's ignored
   `pinokio/ENVIRONMENT`; a terminal clone → the repo-root `.env`. Each file is made owner-only
   _before_ a secret is written into it. These are local plaintext files,
   excluded from Git; the app uses your keys to contact the providers.

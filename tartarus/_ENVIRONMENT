@@ -1,0 +1,30 @@
+# Bident works without any API keys.
+# Easiest way to add one: open PROVIDER SETTINGS inside the running app (the
+# POWER UP chip, bottom-right). It saves into this file for you with owner-only
+# permissions and restarts the app — you never need to edit this file by hand.
+# Manual fallback: reveal this ignored tartarus/ENVIRONMENT file from the app's
+# files in Tartarus, edit it with a trusted local text editor, uncomment only
+# the providers you need, then Stop and Start the app. This file is plaintext,
+# not encrypted.
+
+# Browser: 3D tiles and geocoding; server: Places and Street View.
+# GOOGLE_MAPS_API_KEY=
+# GOOGLE_MAPS_SERVER_API_KEY=
+# CESIUM_ION_TOKEN=
+# OPENAI_API_KEY=
+# AISSTREAM_API_KEY=
+# FIRMS_MAP_KEY=
+# TOMTOM_API_KEY=
+# OPENSKY_CLIENT_ID=
+# OPENSKY_CLIENT_SECRET=
+# LL2_API_TOKEN=
+
+# Keep sharing off. Tartarus runs the same sharing code as Pinokio, which logs
+# successful tunnel-login passcodes, so the launcher refuses to create a tunnel.
+PINOKIO_SHARE_CLOUDFLARE=false
+PINOKIO_SHARE_LOCAL=false
+PINOKIO_SHARE_VAR=__gev_sharing_disabled__
+
+# App-level guards, not billing caps. Provider-side budgets remain authoritative.
+GEV_RATELIMIT_OPENAI_PER_MIN=30
+GEV_RATELIMIT_GOOGLE_PER_MIN=120

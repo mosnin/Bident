@@ -4,11 +4,13 @@ import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyPinokioEnvironment } from './pinokio-environment.mjs';
+import { currentLauncher } from './launcher.mjs';
 import { formatSetupReport, inspectSetup, npmProcessSpec } from './setup-doctor.mjs';
 
 const MODULE_PATH = fileURLToPath(import.meta.url);
 const ROOT = realpathSync(path.resolve(path.dirname(MODULE_PATH), '..'));
-const READY_FILE = path.join(ROOT, 'pinokio', '.installed');
+// tartarus/.installed or pinokio/.installed: each launcher records its own install.
+const readyFile = () => path.join(ROOT, currentLauncher().dir, '.installed');
 
 export function runChecked(command, args, { shell = false } = {}) {
   const result = spawnSync(command, args, {
@@ -23,7 +25,8 @@ export function runChecked(command, args, { shell = false } = {}) {
 
 export function installPinokioDependencies() {
   applyPinokioEnvironment();
-  rmSync(READY_FILE, { force: true });
+  const launcher = currentLauncher();
+  rmSync(readyFile(), { force: true });
   const npm = npmProcessSpec();
   runChecked(npm.command, ['ci'], { shell: npm.shell });
 
@@ -38,12 +41,12 @@ export function installPinokioDependencies() {
     authoritativeEnvironment: true,
   });
   console.log(`\n${formatSetupReport(report, {
-    readyMessage: 'Ready. Return to Pinokio and choose Start.',
+    readyMessage: `Ready. Return to ${launcher.label} and choose Start.`,
   })}\n`);
   if (!report.ready) process.exit(1);
 
-  writeFileSync(READY_FILE, `${new Date().toISOString()}\n`, { mode: 0o600 });
-  console.log('[Pinokio] Installation ready.');
+  writeFileSync(readyFile(), `${new Date().toISOString()}\n`, { mode: 0o600 });
+  console.log(`[${launcher.label}] Installation ready.`);
 }
 
 export function isDirectInvocation(

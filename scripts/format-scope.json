@@ -895,5 +895,7 @@
   "src/tools/views.test.mjs",
   "src/app/embed.test.mjs",
   "src/tools/globePanel.test.mjs",
-  "src/costEndpointThrottle.test.mjs"
+  "src/costEndpointThrottle.test.mjs",
+  "scripts/launcher.mjs",
+  "src/tartarusLauncherContract.test.mjs"
 ]
